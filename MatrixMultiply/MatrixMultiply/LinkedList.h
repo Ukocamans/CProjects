@@ -156,7 +156,7 @@ void LinkedList<itemType>::print()
 	current = head.link;
 	while (current != NULL)
 	{
-		cout << "Row : " << current->index1 << " Collumn : " << current->index2 << " Data : " << current->data << endl;
+		cout << "Matrix[" << current->index1 << "][" << current->index2 << "] : " << current->data << endl;;
 		current = current->next;
 	}
 }
@@ -239,6 +239,11 @@ LinkedList<itemType>* LinkedList<itemType>::multiply(LinkedList &otherMatrix)
 	}
 	*/
 
+	if (head.col != otherMatrix.head.row)
+	{
+		cout << "This matrixes can't be multiplied.\nFirst matrix column must be equal to the second matrix row" << endl;
+		exit(EXIT_FAILURE);
+	}
 	int temp = 0;
 	
 	LinkedList<int> *matrix3;
