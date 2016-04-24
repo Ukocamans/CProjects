@@ -36,7 +36,8 @@ public:
 	void print();
 	itemType indexSearch(int row, int col);
 	void insert(itemType item);
-	//LinkedList* multiply(LinkedList &otherMatrix);
+	LinkedList<itemType>* multiply(LinkedList &otherMatrix);
+	LinkedList<itemType>& operator=(LinkedList<itemType>& otherList);
 
 	~LinkedList();
 
@@ -139,7 +140,7 @@ void LinkedList<itemType>::insert(itemType item)
 		}
 		else
 		{
-			newNode->index1 = head.numofelem / head.row;
+			newNode->index1 = head.numofelem / head.col;
 			newNode->index2 = head.numofelem % head.col;
 			last->next = newNode;
 			last = newNode;
@@ -173,12 +174,94 @@ itemType LinkedList<itemType>::indexSearch(int row, int col)
 		}
 		current = current->next;
 	}
+	
 }
 
 template<class itemType>
 LinkedList<itemType>::~LinkedList()
 {
 	initialize();
+}
+
+template <class itemType>
+LinkedList<itemType>& LinkedList<itemType>::operator=(LinkedList<itemType>& otherList)
+{
+	_2DNode<itemType> *newNode;
+	_2DNode<itemType> *current;
+
+	if (head.link != NULL)
+	{
+		initialize();
+	}
+	else
+	{
+		current = otherList.head.link;
+		head.numofelem = otherList.head.numofelem;
+		head.row = otherList.head.row;
+		head.col = otherList.head.col;
+		newNode = new _2DNode<itemType>;
+		newNode->data = current->data;
+		newNode->index1 = current->index1;
+		newNode->index2 = current->index2;
+		newNode->next = NULL;
+		head.link = newNode;
+		last = newNode;
+		current = current->next;
+		while (current != NULL)
+		{
+			newNode = new _2DNode<itemType>;
+			newNode->data = current->data;
+			newNode->index1 = current->index1;
+			newNode->index2 = current->index2;
+			newNode->next = NULL;
+			last->next = newNode;
+			last = newNode;
+			current = current->next;
+		}
+	}
+	return *this;
+}
+
+template <class itemType>
+LinkedList<itemType>* LinkedList<itemType>::multiply(LinkedList &otherMatrix)
+{
+
+	/*
+	for(i=0; i<r1; ++i)
+	{
+		for(j=0; j<c2; ++j)
+		{
+			for(k=0; k<c1; ++k)
+			{
+				mult[i][j]+=a[i][k]*b[k][j];
+			}
+		}
+	}
+	*/
+
+	int temp = 0;
+	
+	LinkedList<int> *matrix3;
+	matrix3 = new LinkedList<int>(head.row, otherMatrix.head.col);
+	
+	for (int i = 0; i<head.row; ++i)
+	{
+		for (int j = 0; j<otherMatrix.head.col; ++j)
+		{
+			for (int k = 0; k<head.col; ++k)
+			{
+				temp += (indexSearch(i, k) * otherMatrix.indexSearch(k, j));
+				if (k == head.col-1)
+				{
+					matrix3->insert(temp);
+					temp = 0;
+				}
+			}
+		}
+	}
+
+	return matrix3;
+
 }
 
 #endif // !LINKEDLIST_H
