@@ -41,6 +41,7 @@ int main()
 	matrix1->isMultipliable(*matrix2);
 
 	cout << "Write elements of your first matrix" << endl;
+	cout << endl;
 	for (int i = 0; i < row; i++)
 	{
 		for (int j = 0; j < col; j++)
@@ -52,8 +53,10 @@ int main()
 	}
 
 	matrix1->arrayToLList(arr1);
+	cout << endl;
 
 	cout << "Write elements of your second matrix" << endl;
+	cout << endl;
 	for (int i = 0; i < row2; i++)
 	{
 		for (int j = 0; j < col2; j++)
@@ -72,7 +75,7 @@ int main()
 	matrix3 = matrix1->multiply(*matrix2);
 
 	cout << "Multiplied matrix is : " << endl;
-
+	cout << endl;
 	matrix3->print();
 	
 	return 0;
