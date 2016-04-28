@@ -2,6 +2,7 @@
 #define LINKEDLIST_H
 
 #include <iostream>
+#include <iomanip>
 
 using namespace std;
 
@@ -29,11 +30,13 @@ class LinkedList
 public:
 	LinkedList();
 	LinkedList(int row, int column);
+	void arrayToLList(itemType **arr);
 	void initialize();
 	bool isEmpty();
 	bool isFull();
 	int length();
 	void print();
+	void isMultipliable(LinkedList &otherMatrix);
 	itemType indexSearch(int row, int col);
 	void insert(itemType item);
 	LinkedList<itemType>* multiply(LinkedList &otherMatrix);
@@ -154,10 +157,14 @@ void LinkedList<itemType>::print()
 {
 	_2DNode<itemType> *current;
 	current = head.link;
-	while (current != NULL)
+	for (int i = 0; i < head.row; i++)
 	{
-		cout << "Matrix[" << current->index1 << "][" << current->index2 << "] : " << current->data << endl;;
-		current = current->next;
+		for (int j = 0; j < head.col; j++)
+		{
+			cout << setw(4) << current->data << " ";
+			current = current->next;
+		}
+		cout << endl;
 	}
 }
 
@@ -239,11 +246,6 @@ LinkedList<itemType>* LinkedList<itemType>::multiply(LinkedList &otherMatrix)
 	}
 	*/
 
-	if (head.col != otherMatrix.head.row)
-	{
-		cout << "This matrixes can't be multiplied.\nFirst matrix column must be equal to the second matrix row" << endl;
-		exit(EXIT_FAILURE);
-	}
 	int temp = 0;
 	
 	LinkedList<int> *matrix3;
@@ -267,6 +269,28 @@ LinkedList<itemType>* LinkedList<itemType>::multiply(LinkedList &otherMatrix)
 
 	return matrix3;
 
+}
+
+template <class itemType>
+void LinkedList<itemType>::arrayToLList(itemType **arr)
+{
+	for (int i = 0; i < head.row; i++)
+	{
+		for (int  j = 0; j < head.col; j++)
+		{
+			insert(arr[i][j]);
+		}
+	}
+}
+
+template <class itemType>
+void LinkedList<itemType>::isMultipliable(LinkedList &otherMatrix)
+{
+	if (head.col != otherMatrix.head.row)
+	{
+		cout << "This two matrices can't be multipled.\nFirst matrix's column and second matrix's row must be equal." << endl;
+		exit(EXIT_FAILURE);
+	}
 }
 
 #endif // !LINKEDLIST_H
