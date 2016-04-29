@@ -1,3 +1,8 @@
+/*
+	Author : Umurcan Kocaman
+	Number : 1301020441
+*/
+
 #include <iostream>
 #include "LinkedList.h"
 
